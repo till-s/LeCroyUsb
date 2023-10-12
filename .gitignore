@@ -1,0 +1,4 @@
+pylecroy.cc
+*.swp
+*.o
+*.so
