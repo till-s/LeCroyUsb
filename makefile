@@ -19,11 +19,13 @@ ifneq ($(wildcard .git),)
 CYTHASH=$(shell git hash-object -- pylecroy.pyx pylecroy.cc)
 
 pylecroy.cc: pylecroy.pyx
-	@if [ "xx$(CYTHASH)" != "xx$(file < cythash.txt)" ] ; then \
+	@if [ "xx$(CYTHASH)" != "xx$(strip $(file < cythash.txt))" ] ; then \
+		echo "cython3 -3 --cplus -o $@ $<" ;\
 		cython3 -3 --cplus -o $@ $< ;\
-		echo "REHASHING $(file < cythash.txt) -> $(CYTHASH)";\
-		echo "$(CYTHASH)" > cythash.txt ;\
+		echo "git hash-object -- $^ $@ > cythash.txt" ;\
+		git hash-object -- $^ $@ > cythash.txt ;\
 	else \
+		echo "touch $@";\
 		touch $@;\
 	fi
 
