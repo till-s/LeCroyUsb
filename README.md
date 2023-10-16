@@ -8,4 +8,13 @@ saved me a lot of time; thanks!.
 
 [Original Project](https://github.com/hansiglaser/pas-gpib)
 
+[Programming Manual]()
 
+Example
+-------
+
+        import pylecroy
+        scope=pylecroy.LeCroyUsb()
+        # 'chat' sends a command and if it ends with a '?'
+        # receives and returns a response string.
+        scope.chat("*IDN?")
