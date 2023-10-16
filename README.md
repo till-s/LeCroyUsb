@@ -8,7 +8,7 @@ saved me a lot of time; thanks!.
 
 [Original Project](https://github.com/hansiglaser/pas-gpib)
 
-[Programming Manual]()
+[Programming Manual](https://cdn.teledynelecroy.com/files/manuals/wavejet-touch-remote-control-manual.pdf)
 
 Example
 -------
