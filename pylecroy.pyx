@@ -6,15 +6,24 @@ from cpython     cimport *
 
 cdef extern from "LeCroy.h":
   cdef cppclass LeCroy:
-    LeCroy() except+
-    int snd_str( const char * ) except+
-    int rcv_str( const char *, size_t ) except+
+    LeCroy() except +
+    int snd_str( const char * ) except +
+    int rcv_str( const char *, size_t ) except +
 
 cdef class LeCroyUsb:
-  cdef LeCroy c_cls
+  cdef LeCroy *c_cls
+  # Note if we use a non-pointer variable
+  # as in
+  #   cdef LeCroy c_cls
+  # then the object is constructed but exceptions
+  # are *not* handled!
+  # Work around by using a pointer...
 
-  def __init__(self):
-    pass
+  def __cinit__(self):
+    self.c_cls = new LeCroy();
+
+  def __dealloc__(self):
+    del self.c_cls
 
   def snd(self, str val):
     put = self.c_cls.snd_str( val )
@@ -32,8 +41,12 @@ cdef class LeCroyUsb:
     PyBuffer_Release( &b )
     return rv
 
-  def rcv(self):
+  def rcv(self,int sz=2048):
     b = bytearray(2048)
     got = self.rcvto( b )
     return b[0:got].decode('ascii')
 
+  def chat(self, str cmd, int sz=2048):
+    self.snd( cmd )
+    if cmd[-1] == "?":
+      return self.rcv(sz)

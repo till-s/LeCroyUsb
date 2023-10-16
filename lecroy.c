@@ -90,8 +90,8 @@ bail:
 int
 snd_str( libusb_device_handle *devh, int ep, char *buf)
 {
-	int got, st;
-	st = libusb_bulk_transfer( devh, ep, buf, strlen(buf), &got, TIMEOUT_MS );
+	int put, st;
+	st = libusb_bulk_transfer( devh, ep, buf, strlen(buf), &put, TIMEOUT_MS );
 	if ( st < 0 ) {
 		fprintf(stderr, "snd_str: bulk transfer failed: %d\n", st);
 	}

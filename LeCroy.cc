@@ -100,7 +100,7 @@ LeCroy::snd_str( const char *buf )
 	int put, st;
 	st = libusb_bulk_transfer( m_devh, m_wendp, (uint8_t*)buf, strlen(buf), &put, m_timeout );
 	if ( st < 0 ) {
-		throw std::runtime_error( std::string( "snd_str: bulk transfer failed: %d" ) + std::to_string( st ) );
+		throw std::runtime_error( std::string( "snd_str: bulk transfer failed: " ) + std::to_string( st ) );
 	}
 	return put;
 }
@@ -114,11 +114,11 @@ LeCroy::rcv_str( char *buf, size_t bufsz )
 	unsigned char crlf[2];
 	st = libusb_bulk_transfer( m_devh, m_rendp, (uint8_t*)buf, bufsz, &got, m_timeout );
 	if ( st < 0 ) {
-		throw std::runtime_error( std::string( "rcv_str: bulk transfer failed: %d" ) + std::to_string( st ) );
+		throw std::runtime_error( std::string( "rcv_str: bulk transfer failed: " ) + std::to_string( st ) );
 	}
 	st = libusb_bulk_transfer( m_devh, m_rendp, crlf, sizeof(crlf), &got1, m_timeout );
 	if ( st < 0 ) {
-		throw std::runtime_error( std::string( "rcv_str: crlf bulk transfer failed: %d" ) + std::to_string( st ) );
+		throw std::runtime_error( std::string( "rcv_str: crlf bulk transfer failed: " ) + std::to_string( st ) );
 	}
 	return got;
 }
